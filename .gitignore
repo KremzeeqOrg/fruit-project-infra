@@ -1,0 +1,3 @@
+src/terraform/.terraform.lock.hcl
+src/terraform/modules/dynamo_db/.terraform
+src/terraform/.terraform
