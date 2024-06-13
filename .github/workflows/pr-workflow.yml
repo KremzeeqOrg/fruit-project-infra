@@ -1,8 +1,6 @@
 on:
   pull_request:
     types: [opened, edited, reopened]
-  branches:
-    - 'main'
 
 # env:
 #   AWS_REGION: ${{ env.AWS_REGION }}
