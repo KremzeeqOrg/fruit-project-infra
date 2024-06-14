@@ -49,10 +49,16 @@ jobs:
         with:
           terraform_version: '1.8.5'
       - name: Setup Terraform Plan
-        run: terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }}
+        run: terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out=plan.json
         continue-on-error: true
-      - uses: tchupp/actions-terraform-pr@v1
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
-        run: |
-          terraform apply -auto-approve -var-file ${{ env.TF_VAR_FILE }}
+      - name: PR comment Terraform plan
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: plan.json
+
+
+      # - uses: tchupp/actions-terraform-pr@v1
+      # - name: Terraform Apply
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     terraform apply -auto-approve -var-file ${{ env.TF_VAR_FILE }}
