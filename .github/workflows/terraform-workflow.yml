@@ -52,12 +52,13 @@ jobs:
       - name: Setup Terraform Plan
         run: |
           terraform init
-          terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out=plan.json
+          terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out .tfplan
         continue-on-error: true
-      - uses: tchupp/actions-terraform-pr@v1
+      - name: Post PR comment
+        uses: borchero/terraform-plan-comment@v1
         with:
-          apply-branch: "main"
-          # path: "terraform"
+          token: ${{ github.token }}
+          planfile: .planfil.tfplan
       # - name: PR comment Terraform plan
       #   uses: thollander/actions-comment-pull-request@v2
       #   with:
