@@ -54,10 +54,14 @@ jobs:
           terraform init
           terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out=plan.json
         continue-on-error: true
-      - name: PR comment Terraform plan
-        uses: thollander/actions-comment-pull-request@v2
+      - uses: tchupp/actions-terraform-pr@v1
         with:
-          filePath: plan.json
+          apply-branch: "main"
+          # path: "terraform"
+      # - name: PR comment Terraform plan
+      #   uses: thollander/actions-comment-pull-request@v2
+      #   with:
+      #     filePath: plan.json
 
 
       # - uses: tchupp/actions-terraform-pr@v1
