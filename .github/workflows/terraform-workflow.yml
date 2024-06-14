@@ -49,7 +49,9 @@ jobs:
         with:
           terraform_version: '1.8.5'
       - name: Setup Terraform Plan
-        run: terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out=plan.json
+        run: |
+          terraform init
+          terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out=plan.json
         continue-on-error: true
       - name: PR comment Terraform plan
         uses: thollander/actions-comment-pull-request@v2
