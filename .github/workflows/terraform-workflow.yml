@@ -55,7 +55,7 @@ jobs:
           terraform init
           terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out ${{ env.TF_PLAN_FILE }}
         continue-on-error: true
-      - if: github.ref == 'refs/heads/main'
+      - if: github.ref != 'refs/heads/main'
         uses: borchero/terraform-plan-comment@v1
         name: Post Terraform plan comment
         with:
