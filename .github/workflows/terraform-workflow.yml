@@ -23,6 +23,7 @@ jobs:
       GH_WORKSPACE: "terraform"
       TF_VAR_FILE: "terraform.tfvars.json"
       TF_PLAN_FILE: ".tfplanfile"
+      MAIN_BRANCH_CHECK: "github.ref == 'refs/heads/main'"
 
     steps:
       # Use sparse checkout to only select files in mobile app directory
@@ -56,11 +57,12 @@ jobs:
           terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out ${{ env.TF_PLAN_FILE }}
         continue-on-error: true
       - name: Post PR comment
+        if: ${{ env.MAIN_BRANCH_CHECK }}
         uses: borchero/terraform-plan-comment@v1
         with:
           token: ${{ github.token }}
           planfile: .tfplanfile
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        if: ${{ env.MAIN_BRANCH_CHECK }}
         run: |
           terraform apply -auto-approve -var-file ${{ env.TF_PLAN_FILE }}
