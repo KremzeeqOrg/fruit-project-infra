@@ -35,7 +35,8 @@ jobs:
         id: plan
         run: |
             mv ${{ env.GH_WORKSPACE }}/* .
-            ls -la
+            rm -rf ${{ env.GH_WORKSPACE }}
+            ls -lah
 
 
         # with: 
