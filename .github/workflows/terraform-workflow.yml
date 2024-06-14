@@ -22,6 +22,7 @@ jobs:
     env:
       GH_WORKSPACE: "terraform"
       TF_VAR_FILE: "terraform.tfvars.json"
+      TF_PLAN_FILE: ".tfplanfile"
 
     steps:
       # Use sparse checkout to only select files in mobile app directory
@@ -52,21 +53,14 @@ jobs:
       - name: Setup Terraform Plan
         run: |
           terraform init
-          terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out .tfplanfile
+          terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out ${{ env.TF_PLAN_FILE }}
         continue-on-error: true
       - name: Post PR comment
         uses: borchero/terraform-plan-comment@v1
         with:
           token: ${{ github.token }}
           planfile: .tfplanfile
-      # - name: PR comment Terraform plan
-      #   uses: thollander/actions-comment-pull-request@v2
-      #   with:
-      #     filePath: plan.json
-
-
-      # - uses: tchupp/actions-terraform-pr@v1
-      # - name: Terraform Apply
-      #   if: github.ref == 'refs/heads/main'
-      #   run: |
-      #     terraform apply -auto-approve -var-file ${{ env.TF_VAR_FILE }}
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: |
+          terraform apply -auto-approve -var-file ${{ env.TF_PLAN_FILE }}
