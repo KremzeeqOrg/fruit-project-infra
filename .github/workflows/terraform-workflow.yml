@@ -33,6 +33,10 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: '1.8.5'
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -var-file terraform.tfvars.json
+        continue-on-error: true
       - uses: tchupp/actions-terraform-pr@v1
         with:
           apply-branch: "main"
