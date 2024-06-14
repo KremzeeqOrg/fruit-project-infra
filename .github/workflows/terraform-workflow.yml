@@ -17,6 +17,9 @@ jobs:
     permissions:
       id-token: write
       contents: read
+
+    env:
+      TF_VAR_FILE: "terraform.tfvars.json"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,11 +38,13 @@ jobs:
           terraform_version: '1.8.5'
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var-file terraform.tfvars.json
+        run: terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }}
         continue-on-error: true
       - uses: tchupp/actions-terraform-pr@v1
-        with:
-          apply-branch: "main"
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: |
+          terraform apply -auto-approve -var-file ${{ env.TF_VAR_FILE }}
           
 
 
