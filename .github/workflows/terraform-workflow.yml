@@ -21,11 +21,11 @@ jobs:
     env:
       GH_WORKSPACE: "terraform"
       TF_VAR_FILE: "terraform.tfvars.json"
-      # TF_WORKPLACE: "src/terraform"
 
     steps:
       # Use sparse checkout to only select files in mobile app directory
       # Turning off cone mode ensures that files in the project root are not included during checkout
+      # checkout pattern - https://github.com/actions/checkout/issues/483#issuecomment-1756354321
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -37,30 +37,22 @@ jobs:
             mv ${{ env.GH_WORKSPACE }}/* .
             rm -rf ${{ env.GH_WORKSPACE }}
             ls -lah
-
-
-        # with: 
-        #   path: "terraform/"
-      # - name: Set AWS context
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
-      #     role-session-name: GitHub_to_AWS_via_FederatedOIDC
-      #     aws-region: ${{ secrets.AWS_REGION }}
-      #     mask-aws-account-id: true
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_version: '1.8.5'
-
-        # working-directory: ${{env.working-directory}}
-        # run: terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }}
-      #   continue-on-error: true
-      # - uses: tchupp/actions-terraform-pr@v1
-      # - name: Terraform Apply
-      #   if: github.ref == 'refs/heads/main'
-      #   run: |
-      #     terraform apply -auto-approve -var-file ${{ env.TF_VAR_FILE }}
-          
-
-
+      - name: Set AWS context
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ secrets.AWS_REGION }}
+          mask-aws-account-id: true
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.8.5'
+      - name: Setup Terraform Plan
+        run: terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }}
+        continue-on-error: true
+      - uses: tchupp/actions-terraform-pr@v1
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: |
+          terraform apply -auto-approve -var-file ${{ env.TF_VAR_FILE }}
