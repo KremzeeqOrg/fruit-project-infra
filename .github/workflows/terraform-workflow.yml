@@ -17,6 +17,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      pull-requests: write
 
     env:
       GH_WORKSPACE: "terraform"
