@@ -5,6 +5,7 @@ Provisions AWS resources coded in Terraform for Fruit Project
 ## Resources provisioned
 
 - [3 AWS Dynamo DB tables](./terraform/modules/dynamo_db/main.tf): These are target Dynamo DB tables, which scraped records from external APIs are pushed to for the project.
+- 1 ECR Repository for fruit-project-api-scraper app Docker images.
 
 ## Run Terraform via GitHub Actions
 

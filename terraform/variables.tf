@@ -15,3 +15,7 @@ variable "stack" {
 variable "app" {
   type = string
 }
+
+variable "web_scraper_app" {
+  type = string
+}

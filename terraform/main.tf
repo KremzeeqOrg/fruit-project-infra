@@ -9,7 +9,7 @@ terraform {
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "5.52.0"
     }
   }
@@ -23,8 +23,17 @@ provider "aws" {
 
 module "dynamo_db" {
   source = "./modules/dynamo_db"
-  app = var.app
-  stack = var.stack
-  env = var.env
-  
+  app    = var.app
+  stack  = var.stack
+  env    = var.env
+
+}
+
+resource "aws_ecr_repository" "web_scraper_repo" {
+  name                 = var.web_scraper_app
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }
