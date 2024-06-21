@@ -69,7 +69,7 @@ jobs:
       terraform-version: "1.8.5"
       terraform-working-dir: "terraform"
       terraform-backend-config-file: "backend-dev.tfvars"
-      terraform-vars-file: "terraform-dev.tfvars"
+      terraform-vars-file: "tf-vars-dev.tfvars"
       terraform-plan-approvers: Kremzeeq
     secrets: 
         aws-region: ${{ secrets.AWS_REGION }}
