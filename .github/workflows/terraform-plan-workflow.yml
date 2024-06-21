@@ -1,0 +1,74 @@
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    # Permission can be added at job level or workflow level
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+
+    env:
+      GH_WORKSPACE: "terraform"
+      TF_VARS_DEV_FILE: "terraform-dev.tfvars.json"
+      TF_BACKEND_VARS_DEV_FILE : "backend-dev.tfvars"
+      TF_PLAN_FILE: ".tfplanfile"
+      TF_VAR_PROD_FILE: "terraform-dev.tfvars.json"
+      TF_BA_VARS_FILE : "backend-dev.tfvars"
+
+
+    steps:
+      # Use sparse checkout to only select files in the GH_WORKSPACE
+      # Turning off cone mode ensures that files in the project root are not included during checkout
+      # checkout pattern - https://github.com/actions/checkout/issues/483#issuecomment-1756354321
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: ${{ env.GH_WORKSPACE }}
+          sparse-checkout-cone-mode: false
+      - name: Move files to root
+        id: plan
+        run: |
+            mv ${{ env.GH_WORKSPACE }}/* .
+            rm -rf ${{ env.GH_WORKSPACE }}
+            ls -lah
+      - name: Set AWS context
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE}}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ secrets.AWS_REGION }}
+          mask-aws-account-id: true
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.8.5'
+      - name: Setup Terraform Plan
+        run: |
+          terraform init -backend-config=${{ TF_BACKEND_VARS_DEV_FILE }}
+          terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out ".tfplanfile"
+        continue-on-error: true
+      - name: Post Terraform plan comment
+        if: github.ref != 'refs/heads/main'
+        uses: borchero/terraform-plan-comment@v1
+        with:
+          token: ${{ github.token }}
+          planfile: ${{ env.TF_PLAN_FILE }}
+  deploy-to-dev:
+    name: Deploy to Dev in AWS
+    uses: KremzeeqOrg/fruit-project-infra/.github/workflows/terraform-plan-and-apply.yml@feature/feature-deploy-support-for-serverless-stack
+    with: 
+      env: dev
+      github-token: ${{ github.token }}
+      terraform-version: ${{ env.TERRAFORM_VERSION }}
+      terraform-working-dir: ${{ env.TERRAFORM_WORKING_DIR }}
+      terraform-backend-config-file: "backend-dev.tfvars"
+      terraform-vars-file: "terraform-dev.tfvars.json"
+      terraform-plan-approvers: ${{ env.TERRAFORM_PLAN_APPROVERS }}
+      aws-region: ${{ secrets.AWS_REGION }}
+      aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
