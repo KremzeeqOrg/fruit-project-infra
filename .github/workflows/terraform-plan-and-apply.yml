@@ -65,7 +65,7 @@ jobs:
       - name: Approval Step
         uses: trstringer/manual-approval@v1
         with:
-          secret: ${{ secrets.github-token }}
+          secret: ${{ github.TOKEN }}
           approvers: ${{ inputs.terraform-plan-approvers }}
           minimum-approvals: 1
           issue-title: "Deploy Terraform Plan to ${{ inputs.env }}"
