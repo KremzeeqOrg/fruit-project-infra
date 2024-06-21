@@ -7,6 +7,26 @@ Provisions AWS resources coded in Terraform for Fruit Project
 - [3 AWS Dynamo DB tables](./terraform/modules/dynamo_db/main.tf): These are target Dynamo DB tables, which scraped records from external APIs are pushed to for the project.
 - 1 ECR Repository for fruit-project-api-scraper app Docker images.
 
+## Bootstrap
+
+This refers to resources which need to be created manually for Terraform to work with a remote state in AWS S3 bucket.
+
+This project supports deploying to `dev` and `prod` environments hosted in 2 different AWS accounts. In these target accounts, create the following, with the stack name e.g. `fruit_project_foundations` :
+
+- S3 bucket
+- DynamoDB table - add a partition key e.g. `fruit_project/fruit_project_foundations` and `LockID` as the `hash_key`. The `hash_key` helps avoid different members interacting with the Terraform state at the same time.
+- IAM role for GitHub Actions to assume e.g. `GitHubActions-AssumeRole`
+
+Notice that these are referenced in the top level terraform main.tf file [here](./terraform/main.tf)
+Please see Terraform docs [here](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) fo more info on setting up backend configuraion.
+
+In relation to the IAM role, this should have a trust policy, which enables GitHub as a OIDC provider to assume the role with certain permissions. A policy should also be attached to the role, applying the pinciple of 'least privilige'. Please consult this [AWS blog](https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/) for further guidance.
+
+In GitHub, create secrets for the following, with AWS arns related to the IAM roles manually created :
+
+- FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE
+- FRUIT_PROJECT_PROD_AWS_ACCOUNT_ACCESS_ROLE
+
 ## Run Terraform via GitHub Actions
 
 - Review Github Actions workflow [here](.github/workflows/main_workflow.yml) to see steps for provisioning resources
