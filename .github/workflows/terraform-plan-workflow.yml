@@ -15,11 +15,13 @@ jobs:
 
     env:
       GH_WORKSPACE: "terraform"
+      TERRAFORM_VERSION : "1.8.5"
+      TERRAFORM_WORKING_DIR: "terraform"
+      TERRAFORM_PLAN_APPROVERS: "Kremzeeq"
       TF_VARS_DEV_FILE: "terraform-dev.tfvars.json"
       TF_BACKEND_VARS_DEV_FILE : "backend-dev.tfvars"
       TF_PLAN_FILE: ".tfplanfile"
       TF_VAR_PROD_FILE: "terraform-dev.tfvars.json"
-      TF_BA_VARS_FILE : "backend-dev.tfvars"
 
 
     steps:
