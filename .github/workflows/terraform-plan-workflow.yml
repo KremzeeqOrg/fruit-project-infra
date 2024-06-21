@@ -4,11 +4,8 @@ on:
       - main
     types: [opened, synchronize, reopened]
 env:
-  GH_WORKSPACE: "terraform"
-  TERRAFORM_VERSION : "1.8.5"
-  TERRAFORM_WORKING_DIR: "terraform"
-  TERRAFORM_PLAN_APPROVERS: "Kremzeeq"
-  TF_VARS_DEV_FILE: "terraform-dev.tfvars"
+  TF_WORKSPACE: "terraform"
+  TF_VARS_DEV_FILE: "tf-vars-dev.tfvars"
   TF_BACKEND_VARS_DEV_FILE : "backend-dev.tfvars"
   TF_PLAN_FILE: ".tfplanfile"
 
@@ -29,13 +26,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          sparse-checkout: ${{ env.GH_WORKSPACE }}
+          sparse-checkout: ${{ env.TF_WORKSPACE }}
           sparse-checkout-cone-mode: false
       - name: Move files to root
         id: plan
         run: |
-            mv ${{ env.GH_WORKSPACE }}/* .
-            rm -rf ${{ env.GH_WORKSPACE }}
+            mv ${{ env.TF_WORKSPACE }}/* .
+            rm -rf ${{ env.TF_WORKSPACE }}
             ls -lah
       - name: Set AWS context
         uses: aws-actions/configure-aws-credentials@v4
@@ -51,7 +48,7 @@ jobs:
       - name: Setup Terraform Plan
         run: |
           terraform init -backend-config ${{ env.TF_BACKEND_VARS_DEV_FILE }}
-          terraform plan -no-color -var-file=${{ env.TF_VAR_FILE }} -out ${{ env.TF_PLAN_FILE }}
+          terraform plan -no-color -var-file=${{ env.TF_VARS_DEV_FILE }} -out ${{ env.TF_PLAN_FILE }}
         continue-on-error: true
       - name: Post Terraform plan comment
         if: github.ref != 'refs/heads/main'
