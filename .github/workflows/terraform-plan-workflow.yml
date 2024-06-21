@@ -59,6 +59,7 @@ jobs:
   deploy-to-dev:
     permissions:
       id-token: write
+      issues: write
       contents: read
     needs: terraform-plan
     name: Deploy to Dev in AWS
