@@ -37,3 +37,9 @@ resource "aws_ecr_repository" "web_scraper_repo" {
     scan_on_push = true
   }
 }
+
+resource "null_resource" "example" {
+  provisioner "local-exec" {
+    command = "echo  hello"
+  }
+}
