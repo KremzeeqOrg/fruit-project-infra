@@ -61,7 +61,7 @@ jobs:
           planfile: ${{ env.TF_PLAN_FILE }}
   deploy-to-dev:
     name: Deploy to Dev in AWS
-    uses: KremzeeqOrg/fruit-project-infra/.github/workflows/terraform-plan-and-apply.yml@feature/feature-deploy-support-for-serverless-stack
+    uses: ./.github/workflows/terraform-plan-and-apply.yml
     with: 
       env: dev
       github-token: ${{ github.token }}
