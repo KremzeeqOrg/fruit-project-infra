@@ -3,6 +3,16 @@ on:
     branches:
       - main
     types: [opened, synchronize, reopened]
+env:
+  GH_WORKSPACE: "terraform"
+  TERRAFORM_VERSION : "1.8.5"
+  TERRAFORM_WORKING_DIR: "terraform"
+  TERRAFORM_PLAN_APPROVERS: "Kremzeeq"
+  TF_VARS_DEV_FILE: "terraform-dev.tfvars.json"
+  TF_BACKEND_VARS_DEV_FILE : "backend-dev.tfvars"
+  TF_PLAN_FILE: ".tfplanfile"
+  TF_VAR_PROD_FILE: "terraform-dev.tfvars.json"
+
 jobs:
   terraform:
     name: "Terraform"
@@ -12,18 +22,6 @@ jobs:
       id-token: write
       contents: read
       pull-requests: write
-
-    env:
-      GH_WORKSPACE: "terraform"
-      TERRAFORM_VERSION : "1.8.5"
-      TERRAFORM_WORKING_DIR: "terraform"
-      TERRAFORM_PLAN_APPROVERS: "Kremzeeq"
-      TF_VARS_DEV_FILE: "terraform-dev.tfvars.json"
-      TF_BACKEND_VARS_DEV_FILE : "backend-dev.tfvars"
-      TF_PLAN_FILE: ".tfplanfile"
-      TF_VAR_PROD_FILE: "terraform-dev.tfvars.json"
-
-
     steps:
       # Use sparse checkout to only select files in the GH_WORKSPACE
       # Turning off cone mode ensures that files in the project root are not included during checkout
