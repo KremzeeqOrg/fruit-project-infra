@@ -39,13 +39,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          sparse-checkout: ${{ env.GH_WORKSPACE }}
+          sparse-checkout: ${{ inputs.terraform-working-dir }}
           sparse-checkout-cone-mode: false
       - name: Move files to root
         id: plan
         run: |
-            mv ${{ env.GH_WORKSPACE }}/* .
-            rm -rf ${{ env.GH_WORKSPACE }}
+            mv ${{ inputs.terraform-working-dir }}/* .
+            rm -rf ${{ inputs.terraform-working-dir }}
             ls -lah
       - name: Set AWS context
         uses: aws-actions/configure-aws-credentials@v4

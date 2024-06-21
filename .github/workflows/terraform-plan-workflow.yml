@@ -57,6 +57,9 @@ jobs:
           token: ${{ github.token }}
           planfile: ${{ env.TF_PLAN_FILE }}
   deploy-to-dev:
+    permissions:
+      id-token: write
+      contents: read
     needs: terraform-plan
     name: Deploy to Dev in AWS
     uses: ./.github/workflows/terraform-plan-and-apply.yml
