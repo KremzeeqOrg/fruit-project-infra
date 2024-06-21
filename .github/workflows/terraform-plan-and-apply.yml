@@ -61,7 +61,7 @@ jobs:
       - name: Terraform Plan for ${{ inputs.env }}
         run: |
           terraform init -backend-config=${{ inputs.terraform-backend-config-file }}
-          terraform plan -no-color -var-file=${{ inputs.terraform-vars-file }} -out=".tfplanfile"
+          terraform plan -no-color -var-file=${{ inputs.terraform-vars-file }} -out=.tfplanfile
       - name: Approval Step
         uses: trstringer/manual-approval@v1
         with:
@@ -75,4 +75,4 @@ jobs:
           additional-denied-words: ''
       - name: Terraform Apply for ${{ inputs.env }}
         run: |
-          terraform apply -auto-approve -var-file=".tfplanfile"
+          terraform apply .tfplanfile -auto-approve 
