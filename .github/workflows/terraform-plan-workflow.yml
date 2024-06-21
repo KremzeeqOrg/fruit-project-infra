@@ -72,5 +72,6 @@ jobs:
       terraform-backend-config-file: "backend-dev.tfvars"
       terraform-vars-file: "terraform-dev.tfvars.json"
       terraform-plan-approvers: Kremzeeq
-      aws-region: ${{ secrets.AWS_REGION }}
-      aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
+    secrets: 
+        aws-region: ${{ secrets.AWS_REGION }}
+        aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
