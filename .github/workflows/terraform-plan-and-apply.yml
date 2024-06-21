@@ -75,4 +75,4 @@ jobs:
           additional-denied-words: ''
       - name: Terraform Apply for ${{ inputs.env }}
         run: |
-          terraform apply .tfplanfile -auto-approve 
+          terraform apply -json .tfplanfile

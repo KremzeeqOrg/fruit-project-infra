@@ -1,8 +1,5 @@
 terraform {
   backend "s3" {
-    bucket = "fruit-project-foundations"
-    key    = "fruit-project/fruit-project-foundations"
-    region = "eu-west-2"
   }
 }
 
