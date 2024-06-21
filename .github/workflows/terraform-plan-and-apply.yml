@@ -57,7 +57,7 @@ jobs:
       - name: Setup Terraform for ${{ inputs.env }}
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: ${{ terraform-version }}
+          terraform_version: ${{ inputs.terraform-version }}
       - name: Terraform Plan for ${{ inputs.env }}
         run: |
           terraform init -backend-config=${{ inputs.terraform-backend-config-file }}
