@@ -50,7 +50,7 @@ jobs:
           terraform_version: '1.8.5'
       - name: Setup Terraform Plan
         run: |
-          terraform init -backend-config=${{ TF_BACKEND_VARS_DEV_FILE }}
+          terraform init -backend-config=${{ env.TF_BACKEND_VARS_DEV_FILE }}
           terraform plan -no-color -var-file ${{ env.TF_VAR_FILE }} -out ".tfplanfile"
         continue-on-error: true
       - name: Post Terraform plan comment
