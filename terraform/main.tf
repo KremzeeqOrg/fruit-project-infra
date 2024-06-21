@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = var.stack
+    bucket = "fruit-project-foundations"
     key    = "fruit-project/fruit-project-foundations"
     region = "eu-west-2"
   }
