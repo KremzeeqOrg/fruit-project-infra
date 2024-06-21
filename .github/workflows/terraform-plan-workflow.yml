@@ -14,9 +14,10 @@ env:
   TF_VAR_PROD_FILE: "terraform-dev.tfvars.json"
 
 jobs:
-  terraform:
-    name: "Terraform"
+  terraform-plan:
+    name: "Terraform Plan"
     runs-on: ubuntu-latest
+    
     # Permission can be added at job level or workflow level
     permissions:
       id-token: write
@@ -60,15 +61,16 @@ jobs:
           token: ${{ github.token }}
           planfile: ${{ env.TF_PLAN_FILE }}
   deploy-to-dev:
+    needs: terraform-plan
     name: Deploy to Dev in AWS
     uses: ./.github/workflows/terraform-plan-and-apply.yml
     with: 
-      env: dev
+      env: "dev"
       github-token: ${{ github.token }}
-      terraform-version: ${{ env.TERRAFORM_VERSION }}
-      terraform-working-dir: ${{ env.TERRAFORM_WORKING_DIR }}
+      terraform-version: "1.8.5"
+      terraform-working-dir: "terraform"
       terraform-backend-config-file: "backend-dev.tfvars"
       terraform-vars-file: "terraform-dev.tfvars.json"
-      terraform-plan-approvers: ${{ env.TERRAFORM_PLAN_APPROVERS }}
+      terraform-plan-approvers: Kremzeeq
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
