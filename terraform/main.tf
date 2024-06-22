@@ -35,8 +35,8 @@ resource "aws_ecr_repository" "web_scraper_repo" {
   }
 }
 
-resource "null_resource" "example" {
-  provisioner "local-exec" {
-    command = "echo hello"
-  }
-}
+# resource "null_resource" "example" {
+#   provisioner "local-exec" {
+#     command = "echo hello"
+#   }
+# }
