@@ -2,43 +2,34 @@ on:
   push:
     branches:
       - main
-env:
-  TERRAFORM_VERSION : "1.8.5"
-  TERRAFORM_WORKING_DIR: "terraform"
-  TERRAFORM_PLAN_APPROVERS: "Kremzeeq"
-
-permissions:
-  id-token: write
-  contents: read
 
 jobs:
-  deploy-terraform-in-dev:
-    name: Deploy Terraform in Dev
-    uses: KremzeeqOrg/fruit-project-infra/.github/workflows/terraform-plan-and-apply.yml@feature/feature-deploy-support-for-serverless-stack
+  deploy-to-dev:
+    name: Deploy to Dev in AWS
+    permissions:
+      id-token: write
+      issues: write
+      contents: read
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@main  
     with: 
-      env: dev
-      github-token: ${{ github.token }}
-      terraform-version: ${{ env.TERRAFORM_VERSION }}
-      terraform-working-dir: ${{ env.TERRAFORM_WORKING_DIR }}
-      terraform-backend-config-file: "backend-dev.tfvars"
-      terraform-vars-file: "terraform-dev.tfvars.json"
-      terraform-plan-approvers: ${{ env.TERRAFORM_PLAN_APPROVERS }}
+      environment: dev
+    secrets: 
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
 
-  deploy-terraform-in-prod:
-    needs: deploy-terraform-in-dev
-    name: Deploy Terraform in Prod
-    uses: KremzeeqOrg/fruit-project-infra/.github/workflows/workflow-1.yml@feature/feature-deploy-support-for-serverless-stack
+  deploy-to-prod:
+    name: Deploy to Dev in AWS
+    needs: deploy-to-dev
+    permissions:
+      id-token: write
+      issues: write
+      contents: read
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@main   
     with: 
-      env: prod
-      github-token: ${{ github.token }}
-      terraform-version: ${{ env.TERRAFORM_VERSION }}
-      terraform-working-dir: ${{ env.TERRAFORM_WORKING_DIR} }
-      terraform-backend-config-file: "backend-prod.tfvars"
-      terraform-vars-file: "terraform-prod.tfvars.json"
-      terraform-plan-approvers: ${{ env.TERRAFORM_PLAN_APPROVERS }}
+      environment: prod
+    secrets: 
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_PROD_AWS_ACCOUNT_ACCESS_ROLE }}
+
 
 

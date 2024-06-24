@@ -4,42 +4,30 @@ on:
       - main
     types: [opened, synchronize, reopened]
 
-# env:
-  # TF_WORKSPACE: "terraform"
-  # TF_VARS_DEV_FILE: "tf-vars-dev.tfvars"
-  # TF_BACKEND_VARS_DEV_FILE: "backend-dev.tfvars"
-  # TF_PLAN_FILE: ".tfplanfile"
-
 jobs:
-  deploy-to-dev:
+  terraform-plan:
+    name: "Terraform Plan and Comment on PR"
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@main
+    with: 
+      environment: dev
+    secrets:
+      aws-region: ${{ secrets.AWS_REGION }}
+      aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
+
+  deploy-to-prod:
     name: Deploy to Dev in AWS
+    needs: deploy-to-dev
     permissions:
       id-token: write
       issues: write
       contents: read
-    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@feature/refinement-of-terraform-workflows    
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@main   
     with: 
-      environment: dev
-      # repository: "https://github.com/KremzeeqOrg/fruit-project-infra.git"
-      # github_sha: ${{ github.GITHUB_SHA }}
+      environment: prod
     secrets: 
       aws-region: ${{ secrets.AWS_REGION }}
-      aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
-
-  # terraform-plan:
-  #   name: "Terraform Plan and Comment on PR"
-  #   # Permission can be added at job level or workflow level
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #     pull-requests: write
-  #   uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@main
-  #   with: 
-  #     env: "dev"
-  #     terraform-version: "1.8.5"
-  #     terraform-working-dir: "terraform"
-  #     terraform-backend-config-file: "backend-dev.tfvars"
-  #     terraform-vars-file: "tf-vars-dev.tfvars"
-  #   secrets:
-  #     aws-region: ${{ secrets.AWS_REGION }}
-  #     aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
+      aws-iam-role: ${{ secrets.FRUIT_PROJECT_PROD_AWS_ACCOUNT_ACCESS_ROLE }}

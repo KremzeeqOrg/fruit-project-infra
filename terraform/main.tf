@@ -16,8 +16,6 @@ provider "aws" {
   # Configuration options
 }
 
-
-
 module "dynamo_db" {
   source = "./modules/dynamo_db"
   app    = var.app
