@@ -4,30 +4,13 @@ on:
       - main
     types: [opened, synchronize, reopened]
 
-env:
-  TF_WORKSPACE: "terraform"
-  TF_VARS_DEV_FILE: "tf-vars-dev.tfvars"
-  TF_BACKEND_VARS_DEV_FILE: "backend-dev.tfvars"
-  TF_PLAN_FILE: ".tfplanfile"
+# env:
+  # TF_WORKSPACE: "terraform"
+  # TF_VARS_DEV_FILE: "tf-vars-dev.tfvars"
+  # TF_BACKEND_VARS_DEV_FILE: "backend-dev.tfvars"
+  # TF_PLAN_FILE: ".tfplanfile"
 
 jobs:
-  terraform-plan:
-    name: "Terraform Plan and Comment on PR"
-    # Permission can be added at job level or workflow level
-    permissions:
-      id-token: write
-      contents: read
-      pull-requests: write
-    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@main
-    with: 
-      env: "dev"
-      terraform-version: "1.8.5"
-      terraform-working-dir: "terraform"
-      terraform-backend-config-file: "backend-dev.tfvars"
-      terraform-vars-file: "tf-vars-dev.tfvars"
-    secrets:
-      aws-region: ${{ secrets.AWS_REGION }}
-      aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
 
   deploy-to-dev:
     name: Deploy to Dev in AWS
@@ -43,7 +26,25 @@ jobs:
       terraform-working-dir: "terraform"
       terraform-backend-config-file: "backend-dev.tfvars"
       terraform-vars-file: "tf-vars-dev.tfvars"
-      terraform-plan-approvers: Kremzeeq
+      terraform-plan-approvers: "Kremzeeq"
     secrets: 
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
+
+  # terraform-plan:
+  #   name: "Terraform Plan and Comment on PR"
+  #   # Permission can be added at job level or workflow level
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #     pull-requests: write
+  #   uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@main
+  #   with: 
+  #     env: "dev"
+  #     terraform-version: "1.8.5"
+  #     terraform-working-dir: "terraform"
+  #     terraform-backend-config-file: "backend-dev.tfvars"
+  #     terraform-vars-file: "tf-vars-dev.tfvars"
+  #   secrets:
+  #     aws-region: ${{ secrets.AWS_REGION }}
+  #     aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
