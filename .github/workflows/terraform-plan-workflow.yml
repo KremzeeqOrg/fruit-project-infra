@@ -20,13 +20,7 @@ jobs:
       contents: read
     uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@feature/refinement-of-terraform-workflows
     with: 
-      env: "dev"
-      terraform-version: "1.8.5"
-      terraform-working-dir: "terraform"
-      terraform-backend-config-file: "backend-dev.tfvars"
-      terraform-vars-file: "tf-vars-dev.tfvars"
-      terraform-plan-approvers: "Kremzeeq"
-      minimum-approvals: 1
+      environment: dev
     secrets: 
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
