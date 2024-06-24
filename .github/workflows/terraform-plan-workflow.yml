@@ -20,8 +20,8 @@ jobs:
     uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@feature/refinement-of-terraform-workflows    
     with: 
       environment: dev
-      repository: "https://github.com/KremzeeqOrg/fruit-project-infra.git"
-      github_sha: ${{ github.GITHUB_SHA }}
+      # repository: "https://github.com/KremzeeqOrg/fruit-project-infra.git"
+      # github_sha: ${{ github.GITHUB_SHA }}
     secrets: 
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
