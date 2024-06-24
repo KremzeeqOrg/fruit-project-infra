@@ -19,9 +19,6 @@ on:
       terraform-vars-file:
         required: true
         type: string
-      terraform-plan-approvers:
-        required: true
-        type: string
     secrets:
       aws-region:
         required: true
