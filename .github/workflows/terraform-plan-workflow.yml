@@ -11,7 +11,6 @@ on:
   # TF_PLAN_FILE: ".tfplanfile"
 
 jobs:
-
   deploy-to-dev:
     name: Deploy to Dev in AWS
     permissions:
