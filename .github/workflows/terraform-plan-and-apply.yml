@@ -4,9 +4,6 @@ on:
       env:
         required: true
         type: string
-      github-token:
-        required: true
-        type: string
       terraform-version:
         required: true
         type: string

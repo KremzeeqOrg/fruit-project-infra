@@ -28,7 +28,6 @@ jobs:
     secrets:
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
-      git-token: ${{ secrets.FRUIT_PROJECT_GIT_TOKEN }}
 
   deploy-to-dev:
     name: Deploy to Dev in AWS
@@ -40,7 +39,6 @@ jobs:
     uses: ./.github/workflows/terraform-plan-and-apply.yml
     with: 
       env: "dev"
-      github-token: ${{ github.token }}
       terraform-version: "1.8.5"
       terraform-working-dir: "terraform"
       terraform-backend-config-file: "backend-dev.tfvars"
