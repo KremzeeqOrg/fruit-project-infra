@@ -4,9 +4,6 @@ on:
       env:
         required: true
         type: string
-      github-token:
-        required: true
-        type: string
       terraform-version:
         required: true
         type: string
@@ -24,6 +21,9 @@ on:
         required: true
       aws-iam-role:
         required: true
+      github-token:
+        required: true
+
 
 jobs:
   terraform:
@@ -63,5 +63,5 @@ jobs:
         if: github.ref != 'refs/heads/main'
         uses: borchero/terraform-plan-comment@v1
         with:
-          token: ${{ inputs.github-token }}
+          token: ${{ secrets.github-token }}
           planfile: ".tfplanfile"
