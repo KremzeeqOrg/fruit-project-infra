@@ -1,8 +1,5 @@
 terraform {
   backend "s3" {
-    bucket = "fruit-project-foundations"
-    key    = "fruit-project/fruit-project-foundations"
-    region = "eu-west-2"
   }
 }
 
@@ -18,8 +15,6 @@ terraform {
 provider "aws" {
   # Configuration options
 }
-
-
 
 module "dynamo_db" {
   source = "./modules/dynamo_db"
@@ -37,3 +32,9 @@ resource "aws_ecr_repository" "web_scraper_repo" {
     scan_on_push = true
   }
 }
+
+# resource "null_resource" "example" {
+#   provisioner "local-exec" {
+#     command = "echo hello"
+#   }
+# }

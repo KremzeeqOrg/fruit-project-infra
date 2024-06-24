@@ -1,0 +1,5 @@
+region          = "eu-west-2"
+env             = "dev"
+stack           = "fruit-project"
+app             = "fruit-project-foundations"
+web_scraper_app = "fruit-project-api-scraper"

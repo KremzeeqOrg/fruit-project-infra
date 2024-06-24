@@ -1,0 +1,35 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tf-plan-and-apply-in-dev:
+    name: Terraform Plan and Apply in Dev
+    permissions:
+      id-token: write
+      issues: write
+      contents: read
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@main  
+    with: 
+      environment: dev
+    secrets: 
+      aws-region: ${{ secrets.AWS_REGION }}
+      aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
+
+  tf-plan-and-apply-in-prod:
+    name: Terraform Plan and Apply in Prod
+    needs: tf-plan-and-apply-in-dev
+    permissions:
+      id-token: write
+      issues: write
+      contents: read
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@main   
+    with: 
+      environment: prod
+    secrets: 
+      aws-region: ${{ secrets.AWS_REGION }}
+      aws-iam-role: ${{ secrets.FRUIT_PROJECT_PROD_AWS_ACCOUNT_ACCESS_ROLE }}
+
+
+

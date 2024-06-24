@@ -1,0 +1,19 @@
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  terraform-plan:
+    name: "Terraform Plan and Comment on PR"
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@main
+    with: 
+      environment: dev
+    secrets:
+      aws-region: ${{ secrets.AWS_REGION }}
+      aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
