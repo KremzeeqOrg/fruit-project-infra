@@ -28,7 +28,8 @@ jobs:
     secrets:
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
-      github-token: ${{ github.token }}
+      git-token: ${{ secrets.FRUIT_PROJECT_GIT_TOKEN }}
+
   deploy-to-dev:
     name: Deploy to Dev in AWS
     permissions:
