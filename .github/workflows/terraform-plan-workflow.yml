@@ -18,7 +18,7 @@ jobs:
       id-token: write
       contents: read
       pull-requests: write
-    uses: ./.github/workflows/terraform-plan.yml
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml
     with: 
       env: "dev"
       terraform-version: "1.8.5"
@@ -36,7 +36,7 @@ jobs:
       issues: write
       contents: read
     needs: terraform-plan
-    uses: ./.github/workflows/terraform-plan-and-apply.yml
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml
     with: 
       env: "dev"
       terraform-version: "1.8.5"

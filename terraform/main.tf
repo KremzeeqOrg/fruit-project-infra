@@ -26,14 +26,14 @@ module "dynamo_db" {
 
 }
 
-# resource "aws_ecr_repository" "web_scraper_repo" {
-#   name                 = var.web_scraper_app
-#   image_tag_mutability = "MUTABLE"
+resource "aws_ecr_repository" "web_scraper_repo" {
+  name                 = var.web_scraper_app
+  image_tag_mutability = "MUTABLE"
 
-#   image_scanning_configuration {
-#     scan_on_push = true
-#   }
-# }
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
 
 # resource "null_resource" "example" {
 #   provisioner "local-exec" {
