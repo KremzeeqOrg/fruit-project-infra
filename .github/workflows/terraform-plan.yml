@@ -60,5 +60,5 @@ jobs:
         if: github.ref != 'refs/heads/main'
         uses: borchero/terraform-plan-comment@v1
         with:
-          token: ${{ inputs.github-token }}
+          token: ${{ github.token }}
           planfile: ".tfplanfile"
