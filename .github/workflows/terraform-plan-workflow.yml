@@ -11,23 +11,9 @@ jobs:
       id-token: write
       contents: read
       pull-requests: write
-    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@feature/refinement-of-terraform-workflows
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@main
     with: 
       environment: dev
     secrets:
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
-
-  deploy-to-prod:
-    name: Deploy to Prod in AWS
-    needs: terraform-plan
-    permissions:
-      id-token: write
-      issues: write
-      contents: read
-    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@feature/refinement-of-terraform-workflows
-    with: 
-      environment: prod
-    secrets: 
-      aws-region: ${{ secrets.AWS_REGION }}
-      aws-iam-role: ${{ secrets.FRUIT_PROJECT_PROD_AWS_ACCOUNT_ACCESS_ROLE }}

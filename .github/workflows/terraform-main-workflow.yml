@@ -4,8 +4,8 @@ on:
       - main
 
 jobs:
-  deploy-to-dev:
-    name: Deploy to Dev in AWS
+  tf-plan-and-apply-in-dev:
+    name: Terraform Plan and Apply in Dev
     permissions:
       id-token: write
       issues: write
@@ -17,9 +17,9 @@ jobs:
       aws-region: ${{ secrets.AWS_REGION }}
       aws-iam-role: ${{ secrets.FRUIT_PROJECT_DEV_AWS_ACCOUNT_ACCESS_ROLE }}
 
-  deploy-to-prod:
-    name: Deploy to Dev in AWS
-    needs: deploy-to-dev
+  tf-plan-and-apply-in-prod:
+    name: Terraform Plan and Apply in Prod
+    needs: tf-plan-and-apply-in-dev
     permissions:
       id-token: write
       issues: write
