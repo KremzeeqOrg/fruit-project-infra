@@ -62,17 +62,9 @@ jobs:
         run: |
           terraform init -backend-config=${{ inputs.terraform-backend-config-file }}
           terraform plan -no-color -var-file=${{ inputs.terraform-vars-file }} -out=.tfplanfile
-      - name: Approval Step
-        uses: trstringer/manual-approval@v1
+      - name: Post Terraform plan comment
+        if: github.ref != 'refs/heads/main'
+        uses: borchero/terraform-plan-comment@v1
         with:
-          secret: ${{ inputs.github-token }}
-          approvers: ${{ inputs.terraform-plan-approvers }}
-          minimum-approvals: 1
-          issue-title: "Deploy Terraform Plan to ${{ inputs.env }}"
-          issue-body: "Please review the Terraform Plan"
-          exclude-workflow-initiator-as-approver: false
-          additional-approved-words: ''
-          additional-denied-words: ''
-      - name: Terraform Apply for ${{ inputs.env }}
-        run: |
-          terraform apply -json .tfplanfile
+          token: inputs.github-token
+          planfile: ".tfplanfile"
