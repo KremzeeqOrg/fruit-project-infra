@@ -18,13 +18,13 @@ provider "aws" {
 
 
 
-# module "dynamo_db" {
-#   source = "./modules/dynamo_db"
-#   app    = var.app
-#   stack  = var.stack
-#   env    = var.env
+module "dynamo_db" {
+  source = "./modules/dynamo_db"
+  app    = var.app
+  stack  = var.stack
+  env    = var.env
 
-# }
+}
 
 # resource "aws_ecr_repository" "web_scraper_repo" {
 #   name                 = var.web_scraper_app
