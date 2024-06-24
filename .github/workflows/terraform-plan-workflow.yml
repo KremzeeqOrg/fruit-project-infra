@@ -11,7 +11,7 @@ jobs:
       id-token: write
       contents: read
       pull-requests: write
-    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@main
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@feature/refinement-of-terraform-workflows
     with: 
       environment: dev
     secrets:
@@ -25,7 +25,7 @@ jobs:
       id-token: write
       issues: write
       contents: read
-    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@main   
+    uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan-and-apply.yml@feature/refinement-of-terraform-workflows
     with: 
       environment: prod
     secrets: 
