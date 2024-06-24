@@ -20,7 +20,7 @@ jobs:
 
   deploy-to-prod:
     name: Deploy to Dev in AWS
-    needs: deploy-to-dev
+    needs: terraform-plan
     permissions:
       id-token: write
       issues: write
