@@ -26,6 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: ${{ GITHUB_SHA }}
           sparse-checkout: ${{ env.TF_WORKSPACE }}
           sparse-checkout-cone-mode: false
       - name: Move files to root
