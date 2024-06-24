@@ -18,7 +18,6 @@ jobs:
       id-token: write
       issues: write
       contents: read
-    needs: terraform-plan
     uses: KremzeeqOrg/gha-reusable-workflows/.github/workflows/terraform-plan.yml@main
     with: 
       env: "dev"
