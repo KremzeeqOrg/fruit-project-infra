@@ -48,14 +48,14 @@ jobs:
       - name: Setup Terraform Plan
         run: |
           terraform init -backend-config ${{ env.TF_BACKEND_VARS_DEV_FILE }}
-          terraform plan -no-color -var-file=${{ env.TF_VARS_DEV_FILE }} -out ${{ env.TF_PLAN_FILE }}
+          terraform plan -no-color -var-file=${{ env.TF_VARS_DEV_FILE }} -out .tfplanfile
         continue-on-error: true
       - name: Post Terraform plan comment
         if: github.ref != 'refs/heads/main'
         uses: borchero/terraform-plan-comment@v1
         with:
-          token: ${{ github.token }}
-          planfile: ${{ env.TF_PLAN_FILE }}
+          token: ${{ github.TOKEN }}
+          planfile: ".tfplanfile"
   deploy-to-dev:
     permissions:
       id-token: write

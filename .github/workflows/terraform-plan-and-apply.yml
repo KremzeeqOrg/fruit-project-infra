@@ -62,6 +62,7 @@ jobs:
         run: |
           terraform init -backend-config=${{ inputs.terraform-backend-config-file }}
           terraform plan -no-color -var-file=${{ inputs.terraform-vars-file }} -out=.tfplanfile
+          apt install jq
       - name: Approval Step
         uses: trstringer/manual-approval@v1
         with:
