@@ -24,14 +24,6 @@ In relation to the IAM role, this should have a trust policy, which enables GitH
 
 ### Configuration for GitHub Actions
 
-In GitHub, create 2 GitHub environments with enviornment variables and secrets for the following :
-
-Secrets:
-
-- AWS_ACCOUNT_ACCESS_ROLE: AWS arn for the IAM role uyou have created as part of the Bootstrap process.
-
-Environment variables:
-
 #### Environment variables required per a GitHub environment
 
 <details>
@@ -51,11 +43,11 @@ Environment variables:
 
 <details>
 
-| Field                     | Explanation                                                                                                                                                                                                                                                                                                                                                                                      |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `AWS_REGION`              | Target AWS region e.g `eu-west-2`                                                                                                                                                                                                                                                                                                                                                                |
-| `AWS_ACCOUNT_ACCESS_ROLE` | This is the name of the AWS IAM role with a trust policy, which enables GitHub as a OIDC provider to assume the role with certain permissions. A policy should also be attached to the role, applying the 'principle of least privilege'. Please consult this [AWS blog](https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/) for further guidance. |
-| `TF_PLAN_APPROVERS`       | e.g. `GitHubUser1,GitHubUser2`                                                                                                                                                                                                                                                                                                                                                                   |
+| Field                     | Explanation                                                                 |
+| ------------------------- | --------------------------------------------------------------------------- |
+| `AWS_REGION`              | Target AWS region e.g `eu-west-2`                                           |
+| `AWS_ACCOUNT_ACCESS_ROLE` | AWS arn for the IAM role you have created as part of the Bootstrap process. |
+| `TF_PLAN_APPROVERS`       | e.g. `GitHubUser1,GitHubUser2`                                              |
 
 </details>
 
