@@ -11,7 +11,7 @@ Provisions AWS resources coded in Terraform for Fruit Project
 
 This refers to resources which need to be created manually for Terraform to work with a remote state in AWS S3 bucket.
 
-This project supports deploying to `dev` and `prod` environments hosted in 2 different AWS accounts. In these target accounts, create the following, with at tag for the `stack` name e.g. `fruit_project_foundations` :
+This project supports deploying to `dev` and `prod` environments hosted in 2 different AWS accounts. In these target accounts, create the following, with a tag for the `stack` name e.g. `fruit_project_foundations` :
 
 - S3 bucket
 - DynamoDB table - add a partition key e.g. `fruit_project/fruit_project_foundations` and `LockID` as the `hash_key`. The `hash_key` helps avoid different members interacting with the Terraform state at the same time.
@@ -54,7 +54,7 @@ Environment variables:
 | Field                     | Explanation                                                                                                                                                                                                                                                                                                                                                                                      |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `AWS_REGION`              | Target AWS region e.g `eu-west-2`                                                                                                                                                                                                                                                                                                                                                                |
-| `AWS_GITHUB_ACTIONS_ROLE` | This is the name of the AWS IAM role with a trust policy, which enables GitHub as a OIDC provider to assume the role with certain permissions. A policy should also be attached to the role, applying the 'principle of least privilege'. Please consult this [AWS blog](https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/) for further guidance. |
+| `AWS_ACCOUNT_ACCESS_ROLE` | This is the name of the AWS IAM role with a trust policy, which enables GitHub as a OIDC provider to assume the role with certain permissions. A policy should also be attached to the role, applying the 'principle of least privilege'. Please consult this [AWS blog](https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/) for further guidance. |
 | `TF_PLAN_APPROVERS`       | e.g. `GitHubUser1,GitHubUser2`                                                                                                                                                                                                                                                                                                                                                                   |
 
 </details>

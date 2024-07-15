@@ -15,7 +15,7 @@ jobs:
       environment: dev
     secrets: 
       aws-region: ${{ secrets.AWS_REGION }}
-      aws-iam-role: ${{ secrets.AWS_GITHUB_ACTIONS_ACCESS_ROLE }}
+      aws-iam-role: ${{ secrets.AWS_ACCOUNT_ACCESS_ROLE }}
       tf-plan-approvers: ${{ secrets.TF_PLAN_APPROVERS }}
 
   tf-plan-and-apply-in-prod:
@@ -30,7 +30,7 @@ jobs:
       environment: prod
     secrets: 
       aws-region: ${{ secrets.AWS_REGION }}
-      aws-iam-role: ${{ secrets.AWS_GITHUB_ACTIONS_ACCESS_ROLE }}
+      aws-iam-role: ${{ secrets.AWS_ACCOUNT_ACCESS_ROLE }}
       tf-plan-approvers: ${{ secrets.TF_PLAN_APPROVERS }}
 
 
