@@ -18,7 +18,7 @@ In these target accounts, maually create the following:
 - S3 bucket: This should be uniquely named per an environment e.g. `fruit-project-foundations-<env>`
 - DynamoDB table: Create a table e.g. `fruit-project-foundations` and add `LockID` as the Partition key. This helps avoid different users interacting with the Terraform state at the same time.
 
-In the Terraform backend files at `/terraform/config-vars/backend-<env>.tfvars`, review and update the values. If you set the `key` as `state/terraform.tfstate`, you will see that under `LockID`, the partition key will show as `<your-bucket>/state/terraform.tfstate-md5` when the state is first created. In the S3 bucket, the Terraform state would be found under `state`. The entity tag for the state in the S3 will align with the Digest listed alongside the corresponding partition key. By also checking "Last modified" for the state in S3 bucket, you can confirm that the setup is correctly configured.
+In the Terraform backend files at `/terraform/config-vars/backend-<env>.tfvars`, review and update the values. If you set the `key` as `state/terraform.tfstate`, you will see that under `LockID`, the partition key will show as `<your-bucket>/state/terraform.tfstate-md5` when the state is first automatically created from running GitHub Actions workflows. In the S3 bucket, the Terraform state would be found under `state`. The `entity tag` (`Etag`) for the state in the S3 will align with the `Digest` listed alongside the corresponding partition key. By also checking `Last modified` for the state file in S3 bucket, you can confirm that the terraform setup is correctly configured.
 
 Please see Terraform docs [here](https://developer.hashicorp.com/terraform/language/settings/backends/configuration) for more info on setting up backend configuraion.
 
@@ -60,8 +60,8 @@ Following this, it is necessary to setup environment variables and secrets per a
 ## Run Terraform via GitHub Actions
 
 - Review Github Actions workflow [here](.github/workflows/main_workflow.yml) to see steps for provisioning resources
-- Basically, a Terraform plan is raised when a pr is raised and the pr is decorated with the plan for review
-- When a pr is merged, a Terraform plan, followed by Terraform apply is run with an auto-approve option. If it fails, raise another pr to resolve the bug.
+- Basically, a Terraform plan is raised when a PR is raised and the PR is decorated with the plan for review
+- When a PR is merged, a Terraform plan, followed by Terraform apply is run with an auto-approve option. If it fails, raise another PR to resolve the bug.
 
 ## Run Terraform locally
 
