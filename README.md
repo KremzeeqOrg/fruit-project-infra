@@ -77,11 +77,17 @@ Following this, it is necessary to setup environment variables and secrets per a
 
 ## Run Terraform via GitHub Actions
 
+<details>
+
 - Review Github Actions workflow [here](.github/workflows/main_workflow.yml) to see steps for provisioning resources
 - Basically, a Terraform plan is raised when a PR is raised and the PR is decorated with the plan for review
 - When a PR is merged, a Terraform plan, followed by Terraform apply is run with an auto-approve option. If it fails, raise another PR to resolve the bug.
 
+</details>
+
 ## Run Terraform locally
+
+<details>
 
 ### Prerequisittes
 
@@ -90,13 +96,17 @@ Following this, it is necessary to setup environment variables and secrets per a
 
 ### Steps for running code locally
 
+These steps relate to running Terraform commands in relation to the `dev` environment
+
 1. Navigate to `./terraform`
 2. Set aws context e.g. `aws-vault exec <profile>`
-3. `terraform init`
-4. `terraform plan ---var-file terraform.tfvars.json` - Ensure to review environment variables set in `./src/terraform/terraform.tfvars.json` before you run this. Once you run the command, review the plan.
+3. `terraform init -backend-config=./config-vars/backend-dev.tfvars`
+4. `terraform plan -var-file=./config-vars/tf-vars-dev.tfvars  -out=.tfplanfile` - Ensure to review environment variables before you run this. Once you run the command, review the plan.
 5. `terraform apply ---var-file terraform.tfvars.json` - Ensure to review the plan before you apply.
 
-Resources can be teared down with `terraform destroy`.
+Resources can be teared down with `terraform destroy -var-file=./config-vars/tf-vars-dev.tfvars`.
+
+</details>
 
 ## Appendix
 
