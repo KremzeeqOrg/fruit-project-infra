@@ -1,6 +1,6 @@
 # Fruit Project Infra
 
-Defines foundational AWS resources for the 'Fruit Project' in HCL (HashiCorp Configuration Language). Resources are provsioned using Terraform as part of a GitHub Actions workflow to `dev` and `prod` AWS environments. 
+Defines foundational AWS resources for the 'Fruit Project' in HCL (HashiCorp Configuration Language). Resources are provisioned using Terraform as part of a GitHub Actions workflow to `dev` and `prod` AWS environments. 
 
 ## Contents
 
